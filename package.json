@@ -1,0 +1,28 @@
+{
+	"name": "birthdays",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"test:unit": "vitest",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.33.0",
+		"@sveltejs/adapter-auto": "^2.0.1",
+		"@sveltejs/kit": "^1.16.3",
+		"eslint": "^8.40.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"prettier": "^2.8.8",
+		"prettier-plugin-svelte": "^2.10.0",
+		"svelte": "^3.59.1",
+		"vite": "^4.3.5",
+		"vitest": "^0.31.0"
+	},
+	"type": "module"
+}
