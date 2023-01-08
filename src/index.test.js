@@ -9,11 +9,15 @@ describe('sum test', () => {
 
 	it('renders hello into the document', () => {
 		render(Hello, { name: 'world' });
-		expect(document.body).toHaveTextContent('Hello, world!');
+		expect(document.body).toHaveTextContent(
+			'Hello, world!'
+		);
 	});
 
 	it('renders hello, svelte', () => {
 		render(Hello, { name: 'Svelte' });
-		expect(document.body).toHaveTextContent('Hello, Svelte!');
+		expect(document.body).toHaveTextContent(
+			'Hello, Svelte!'
+		);
 	});
 });

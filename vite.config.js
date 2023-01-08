@@ -5,7 +5,10 @@ const config = {
 	test: {
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.{js,ts}'],
-		setupFiles: ['src/vitest/cleanupDom.js', 'src/vitest/registerMatchers.js'],
+		setupFiles: [
+			'src/vitest/cleanupDom.js',
+			'src/vitest/registerMatchers.js'
+		],
 		reporter: 'verbose',
 		restoreMocks: true
 	}
