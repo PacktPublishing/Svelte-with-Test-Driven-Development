@@ -3,8 +3,8 @@
 	export let dob;
 </script>
 
-<span><strong>{name}</strong></span>
-<span>{dob}</span>
+<span><strong>Hercules</strong></span>
+<span>1994-02-02</span>
 
 <style>
 	span {
