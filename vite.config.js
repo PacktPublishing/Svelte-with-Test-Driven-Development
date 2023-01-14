@@ -6,7 +6,8 @@ const config = {
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		setupFiles: ['src/vitest/cleanupDom.js', 'src/vitest/registerMatchers.js'],
-		reporter: 'verbose'
+		reporter: 'verbose',
+		restoreMocks: true
 	}
 };
 
