@@ -12,4 +12,11 @@ describe('Birthday', () => {
 			screen.queryByText('Hercules')
 		).toBeVisible();
 	});
+
+	it('displays the date of birth', () => {
+		render(Birthday, { dob: '1994-02-02' });
+		expect(
+			screen.queryByText('1994-02-02')
+		).toBeVisible();
+	});
 });
