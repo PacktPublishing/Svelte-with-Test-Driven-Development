@@ -21,6 +21,16 @@ describe('Birthday', () => {
 		).toBeVisible();
 	});
 
+	it('displays the name of another person', () => {
+		render(Birthday, {
+			...exampleBirthday,
+			name: 'Athena'
+		});
+		expect(
+			screen.queryByText('Athena')
+		).toBeVisible();
+	});
+
 	it('displays the date of birth', () => {
 		render(Birthday, {
 			...exampleBirthday,
