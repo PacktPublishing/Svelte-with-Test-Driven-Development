@@ -1,4 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import {
+	describe,
+	it,
+	expect,
+	beforeEach
+} from 'vitest';
 import { createFormDataRequest } from 'src/factories/formDataRequest.js';
 import { load, actions } from './+page.server.js';
 
@@ -27,5 +32,84 @@ describe('/birthdays - default action', () => {
 				dob: '2009-02-02'
 			})
 		);
+	});
+
+	describe('validation errors', () => {
+		describe('when the name is not provided', () => {
+			let result;
+
+			beforeEach(async () => {
+				const request = createFormDataRequest({
+					name: '',
+					dob: '2009-02-02'
+				});
+
+				result = await actions.default({ request });
+			});
+
+			it('does not save the birthday', () => {
+				expect(load().birthdays).not.toContainEqual(
+					expect.objectContaining({
+						name: '',
+						dob: '2009-02-02'
+					})
+				);
+			});
+
+			it('returns a 422', () => {
+				expect(result.status).toEqual(422);
+			});
+
+			it('returns a useful message', () => {
+				expect(result.data.error).toEqual(
+					'Please provide a name.'
+				);
+			});
+
+			it('returns the other data back', () => {
+				expect(result.data).toContain({
+					dob: '2009-02-02'
+				});
+			});
+		});
+
+		describe('when the date of birth is in the wrong format', () => {
+			let result;
+
+			beforeEach(async () => {
+				const request = createFormDataRequest({
+					name: 'Hercules',
+					dob: 'unknown'
+				});
+
+				result = await actions.default({ request });
+			});
+
+			it('does not save the birthday', () => {
+				expect(load().birthdays).not.toContainEqual(
+					expect.objectContaining({
+						name: 'Hercules',
+						dob: 'unknown'
+					})
+				);
+			});
+
+			it('returns a 422', () => {
+				expect(result.status).toEqual(422);
+			});
+
+			it('returns a useful message', () => {
+				expect(result.data.error).toEqual(
+					'Please provide a date of birth in the YYYY-MM-DD format.'
+				);
+			});
+
+			it('returns all data back, including the incorrect value', () => {
+				expect(result.data).toContain({
+					name: 'Hercules',
+					dob: 'unknown'
+				});
+			});
+		});
 	});
 });
