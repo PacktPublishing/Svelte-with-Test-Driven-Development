@@ -20,4 +20,9 @@ describe('/birthdays', () => {
 			screen.queryByText('Athena')
 		).toBeVisible();
 	});
+
+	it('displays a form for adding new birthdays', () => {
+		render(Page, { data: { birthdays } });
+		expect(screen.getByRole('form')).toBeVisible();
+	});
 });
