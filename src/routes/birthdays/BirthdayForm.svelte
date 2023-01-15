@@ -12,13 +12,17 @@
 		<input
 			type="text"
 			name="name"
-			value={form?.name}
+			value={form?.name || ''}
 		/>
 	</label>
 
 	<label>
 		Date of birth
-		<input type="text" name="dob" value={form?.dob} />
+		<input
+			type="text"
+			name="dob"
+			value={form?.dob || ''}
+		/>
 	</label>
 
 	<input type="submit" value="Save" />

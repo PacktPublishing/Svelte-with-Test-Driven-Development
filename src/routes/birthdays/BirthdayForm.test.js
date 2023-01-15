@@ -42,6 +42,13 @@ describe('BirthdayForm', () => {
 			expect(field).toBeVisible();
 			expect(field.name).toEqual('name');
 		});
+
+		it('initially has a blank value', () => {
+			render(BirthdayForm);
+			expect(
+				screen.getByLabelText('Name')
+			).toHaveValue('');
+		});
 	});
 
 	describe('date of birth field', () => {
@@ -55,6 +62,13 @@ describe('BirthdayForm', () => {
 			);
 			expect(field).toBeVisible();
 			expect(field.name).toEqual('dob');
+		});
+
+		it('initially has a blank value', () => {
+			render(BirthdayForm);
+			expect(
+				screen.getByLabelText('Name')
+			).toHaveValue('');
 		});
 	});
 
