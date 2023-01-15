@@ -7,6 +7,9 @@
 {/if}
 
 <form method="post" name="birthday">
+	{#if form?.id}
+		<input type="hidden" name="id" value={form.id} />
+	{/if}
 	<label>
 		Name
 		<input

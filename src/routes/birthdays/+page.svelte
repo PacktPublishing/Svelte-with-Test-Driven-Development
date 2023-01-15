@@ -4,21 +4,37 @@
 
 	export let data;
 	export let form = undefined;
+
+	let editing = form?.id ? form : null;
 </script>
 
 <h1>Birthday list</h1>
 <ol>
 	{#each data.birthdays as birthday}
 		<li>
-			<Birthday {...birthday} />
+			{#if editing?.id === birthday.id}
+				<BirthdayForm form={editing} />
+			{:else}
+				<Birthday
+					name={birthday.name}
+					dob={birthday.dob}
+				/>
+			{/if}
+			{#if !editing}
+				<button on:click={() => (editing = birthday)}
+					>Edit</button
+				>
+			{/if}
 		</li>
 	{/each}
 </ol>
 
-<h1>Add a new birthday</h1>
-<div>
-	<BirthdayForm {form} />
-</div>
+{#if !editing}
+	<h1>Add a new birthday</h1>
+	<div>
+		<BirthdayForm {form} />
+	</div>
+{/if}
 
 <style>
 	ol {
