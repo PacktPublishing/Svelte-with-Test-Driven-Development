@@ -27,6 +27,9 @@ describe('/birthdays - load', () => {
 describe('/birthdays - default action', () => {
 	beforeEach(birthdayRepository.clear);
 
+	const storedId = () =>
+		birthdayRepository.getAll()[0].id;
+
 	it('adds a new birthday into the list', async () => {
 		const request = createFormDataRequest({
 			name: 'Zeus',
@@ -57,6 +60,32 @@ describe('/birthdays - default action', () => {
 		expect(
 			birthdayRepository.getAll()[0].id
 		).not.toEqual(birthdayRepository.getAll()[1].id);
+	});
+
+	it.skip('updates an entry that shares the same id', async () => {
+		let request = createFormDataRequest({
+			name: 'Zeus',
+			dob: '2009-02-02'
+		});
+		await actions.default({ request });
+
+		request = createFormDataRequest({
+			id: storedId(),
+			name: 'Zeus Ex',
+			dob: '2007-02-02'
+		});
+		await actions.default({ request });
+
+		expect(birthdayRepository.getAll()).toHaveLength(
+			1
+		);
+		expect(
+			birthdayRepository.getAll()
+		).toContainEqual({
+			id: storedId(),
+			name: 'Zeus Ex',
+			dob: '2007-02-02'
+		});
 	});
 
 	describe('validation errors', () => {
