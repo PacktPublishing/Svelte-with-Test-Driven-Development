@@ -62,7 +62,7 @@ describe('/birthdays - default action', () => {
 		).not.toEqual(birthdayRepository.getAll()[1].id);
 	});
 
-	it.skip('updates an entry that shares the same id', async () => {
+	it('updates an entry that shares the same id', async () => {
 		let request = createFormDataRequest({
 			name: 'Zeus',
 			dob: '2009-02-02'

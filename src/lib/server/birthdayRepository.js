@@ -10,3 +10,6 @@ export const addNew = (item) => {
 export const getAll = () => Array.from(db.values());
 
 export const clear = () => db.clear();
+
+export const replace = (id, item) =>
+	db.set(id, { ...item, id });

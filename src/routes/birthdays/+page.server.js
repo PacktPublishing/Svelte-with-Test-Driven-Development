@@ -1,7 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import {
 	addNew,
-	getAll
+	getAll,
+	replace
 } from '$lib/server/birthdayRepository.js';
 
 addNew({ name: 'Hercules', dob: '1994-02-02' });
@@ -14,6 +15,7 @@ export const load = () => ({
 export const actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
+		const id = data.get('id');
 		const name = data.get('name');
 		const dob = data.get('dob');
 
@@ -33,10 +35,17 @@ export const actions = {
 			});
 		}
 
-		addNew({
-			name,
-			dob
-		});
+		if (id) {
+			replace(id, {
+				name,
+				dob
+			});
+		} else {
+			addNew({
+				name,
+				dob
+			});
+		}
 	}
 };
 
