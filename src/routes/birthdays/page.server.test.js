@@ -165,5 +165,38 @@ describe('/birthdays - default action', () => {
 				});
 			});
 		});
+
+		describe('when the id is unknown', () => {
+			let result;
+
+			beforeEach(async () => {
+				const request = createFormDataRequest({
+					id: 'unknown',
+					name: 'Hercules',
+					dob: '2009-01-02'
+				});
+
+				result = await actions.default({ request });
+			});
+
+			it('does not save the birthday', () => {
+				expect(load().birthdays).not.toContainEqual(
+					expect.objectContaining({
+						name: 'Hercules',
+						dob: 'unknown'
+					})
+				);
+			});
+
+			it('returns a 422', () => {
+				expect(result.status).toEqual(422);
+			});
+
+			it('returns a useful message', () => {
+				expect(result.data.error).toEqual(
+					'An unknown ID was provided.'
+				);
+			});
+		});
 	});
 });

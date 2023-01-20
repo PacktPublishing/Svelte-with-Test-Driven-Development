@@ -13,3 +13,5 @@ export const clear = () => db.clear();
 
 export const replace = (id, item) =>
 	db.set(id, { ...item, id });
+
+export const has = (id) => db.has(id);
