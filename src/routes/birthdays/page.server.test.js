@@ -12,8 +12,14 @@ describe('/birthdays - load', () => {
 	it('returns a fixture of two items', () => {
 		const result = load();
 		expect(result.birthdays).toEqual([
-			{ name: 'Hercules', dob: '1994-02-02' },
-			{ name: 'Athena', dob: '1989-01-01' }
+			expect.objectContaining({
+				name: 'Hercules',
+				dob: '1994-02-02'
+			}),
+			expect.objectContaining({
+				name: 'Athena',
+				dob: '1989-01-01'
+			})
 		]);
 	});
 });
@@ -37,6 +43,20 @@ describe('/birthdays - default action', () => {
 				dob: '2009-02-02'
 			})
 		);
+	});
+
+	it('saves unique ids onto each new birthday', async () => {
+		const request = createFormDataRequest({
+			name: 'Zeus',
+			dob: '2009-02-02'
+		});
+
+		await actions.default({ request });
+		await actions.default({ request });
+
+		expect(
+			birthdayRepository.getAll()[0].id
+		).not.toEqual(birthdayRepository.getAll()[1].id);
 	});
 
 	describe('validation errors', () => {

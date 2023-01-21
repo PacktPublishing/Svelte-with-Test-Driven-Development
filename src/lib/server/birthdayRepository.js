@@ -1,6 +1,9 @@
+import { randomUUID } from 'crypto';
+
 let db = [];
 
-export const addNew = (item) => db.push(item);
+export const addNew = (item) =>
+	db.push({ ...item, id: randomUUID() });
 
 export const getAll = () => Array.from(db);
 
