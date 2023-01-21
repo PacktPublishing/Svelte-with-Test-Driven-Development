@@ -1,14 +1,14 @@
 import { fail } from '@sveltejs/kit';
-
-const db = [];
-
-const addNew = (item) => db.push(item);
+import {
+	addNew,
+	getAll
+} from '$lib/server/birthdayRepository.js';
 
 addNew({ name: 'Hercules', dob: '1994-02-02' });
 addNew({ name: 'Athena', dob: '1989-01-01' });
 
 export const load = () => ({
-	birthdays: Array.from(db)
+	birthdays: getAll()
 });
 
 export const actions = {

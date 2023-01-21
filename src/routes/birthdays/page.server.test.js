@@ -6,6 +6,7 @@ import {
 } from 'vitest';
 import { createFormDataRequest } from 'src/factories/formDataRequest.js';
 import { load, actions } from './+page.server.js';
+import * as birthdayRepository from '$lib/server/birthdayRepository.js';
 
 describe('/birthdays - load', () => {
 	it('returns a fixture of two items', () => {
@@ -18,6 +19,8 @@ describe('/birthdays - load', () => {
 });
 
 describe('/birthdays - default action', () => {
+	beforeEach(birthdayRepository.clear);
+
 	it('adds a new birthday into the list', async () => {
 		const request = createFormDataRequest({
 			name: 'Zeus',
@@ -26,7 +29,9 @@ describe('/birthdays - default action', () => {
 
 		await actions.default({ request });
 
-		expect(load().birthdays).toContainEqual(
+		expect(
+			birthdayRepository.getAll()
+		).toContainEqual(
 			expect.objectContaining({
 				name: 'Zeus',
 				dob: '2009-02-02'
