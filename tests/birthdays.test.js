@@ -2,42 +2,39 @@ import { expect, test } from '@playwright/test';
 import { BirthdayListPage } from './BirthdayListPage.js';
 
 test('lists all birthday', async ({ page }) => {
-	await page.goto('/birthdays');
+	const birthdayListPage = new BirthdayListPage(page);
+	await birthdayListPage.goto();
 	await expect(
-		page.getByText('Hercules')
+		birthdayListPage.entryFor('Hercules')
 	).toBeVisible();
 	await expect(
-		page.getByText('Athena')
+		birthdayListPage.entryFor('Athena')
 	).toBeVisible();
 });
 
 test('saves a new birthday', async ({ page }) => {
-	await page.goto('/birthdays');
-	await page.getByLabel('Name').fill('Persephone');
-	await page
-		.getByLabel('Date of birth')
-		.fill('1985-01-01');
-	await page
-		.getByRole('button', { name: 'Save' })
-		.click();
+	const birthdayListPage = new BirthdayListPage(page);
+	await birthdayListPage.goto();
+	await birthdayListPage.saveNameAndDateOfBirth(
+		'Persephone',
+		'1985-01-01'
+	);
 	await expect(
-		page.getByText('Persephone')
+		birthdayListPage.entryFor('Persephone')
 	).toBeVisible();
 });
 
 test('does not save a birthday if there are validation errors', async ({
 	page
 }) => {
-	await page.goto('/birthdays');
-	await page.getByLabel('Name').fill('Demeter');
-	await page
-		.getByLabel('Date of birth')
-		.fill('invalid');
-	await page
-		.getByRole('button', { name: 'Save' })
-		.click();
+	const birthdayListPage = new BirthdayListPage(page);
+	await birthdayListPage.goto();
+	await birthdayListPage.saveNameAndDateOfBirth(
+		'Demeter',
+		'invalid'
+	);
 	await expect(
-		page.getByText('Demeter')
+		birthdayListPage.entryFor('Demeter')
 	).not.toBeVisible();
 	await expect(
 		page.getByText(
