@@ -13,7 +13,7 @@ describe('/birthdays - load', () => {
 });
 
 describe('/birthdays - default action', () => {
-	it.skip('adds a new birthday into the list', async () => {
+	it('adds a new birthday into the list', async () => {
 		const request = createFormDataRequest({
 			name: 'Zeus',
 			dob: '2009-02-02'
