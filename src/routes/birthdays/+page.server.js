@@ -1,8 +1,4 @@
 import { fail } from '@sveltejs/kit';
-import { addNew } from '$lib/server/birthdayRepository.js';
-
-addNew({ name: 'Hercules', dob: '1994-02-02' });
-addNew({ name: 'Athena', dob: '1989-01-01' });
 
 export const load = async ({ fetch }) => {
 	const result = await fetch('/api/birthdays');

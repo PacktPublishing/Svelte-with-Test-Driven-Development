@@ -1,7 +1,27 @@
 import { expect, test } from '@playwright/test';
 import { BirthdayListPage } from './BirthdayListPage.js';
 
-test('lists all birthday', async ({ page }) => {
+const addBirthday = async (
+	request,
+	{ name, dob }
+) => {
+	await request.post('/api/birthdays', {
+		data: { name, dob }
+	});
+};
+
+test('lists all birthday', async ({
+	page,
+	request
+}) => {
+	await addBirthday(request, {
+		name: 'Hercules',
+		dob: '1995-02-03'
+	});
+	await addBirthday(request, {
+		name: 'Athena',
+		dob: '1995-02-03'
+	});
 	const birthdayListPage = new BirthdayListPage(page);
 	await birthdayListPage.goto();
 	await expect(
@@ -43,13 +63,16 @@ test('does not save a birthday if there are validation errors', async ({
 	).toBeVisible();
 });
 
-test('edits a birthday', async ({ page }) => {
+test('edits a birthday', async ({
+	page,
+	request
+}) => {
+	await addBirthday(request, {
+		name: 'Ares',
+		dob: '1985-01-01'
+	});
 	const birthdayListPage = new BirthdayListPage(page);
 	await birthdayListPage.goto();
-	await birthdayListPage.saveNameAndDateOfBirth(
-		'Ares',
-		'1985-01-01'
-	);
 	await birthdayListPage.beginEditingFor('Ares');
 	await birthdayListPage.saveNameAndDateOfBirth(
 		'Ares',
