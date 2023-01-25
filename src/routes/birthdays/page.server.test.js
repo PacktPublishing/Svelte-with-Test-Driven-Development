@@ -163,7 +163,10 @@ describe('/birthdays - default action', () => {
 
 			it('returns a complete error response', () => {
 				expect(result).toBeUnprocessableEntity({
-					error: 'An unknown ID was provided.'
+					error: 'An unknown ID was provided.',
+					id: 'unknown',
+					name: 'Hercules',
+					dob: '2009-01-02'
 				});
 			});
 		});
