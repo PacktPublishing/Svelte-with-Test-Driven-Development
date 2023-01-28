@@ -105,18 +105,9 @@ describe('/birthdays - default action', () => {
 				);
 			});
 
-			it('returns a 422', () => {
-				expect(result.status).toEqual(422);
-			});
-
-			it('returns a useful message', () => {
-				expect(result.data.error).toEqual(
-					'Please provide a name.'
-				);
-			});
-
-			it('returns the other data back', () => {
-				expect(result.data).toContain({
+			it('returns a complete error response', () => {
+				expect(result).toBeUnprocessableEntity({
+					error: 'Please provide a name.',
 					dob: '2009-02-02'
 				});
 			});
@@ -140,18 +131,10 @@ describe('/birthdays - default action', () => {
 				);
 			});
 
-			it('returns a 422', () => {
-				expect(result.status).toEqual(422);
-			});
-
-			it('returns a useful message', () => {
-				expect(result.data.error).toEqual(
-					'Please provide a date of birth in the YYYY-MM-DD format.'
-				);
-			});
-
-			it('returns all data back, including the incorrect value', () => {
-				expect(result.data).toContain({
+			it('returns a complete error response', () => {
+				expect(result).toBeUnprocessableEntity({
+					error:
+						'Please provide a date of birth in the YYYY-MM-DD format.',
 					name: 'Hercules',
 					dob: 'unknown'
 				});
@@ -178,14 +161,10 @@ describe('/birthdays - default action', () => {
 				);
 			});
 
-			it('returns a 422', () => {
-				expect(result.status).toEqual(422);
-			});
-
-			it('returns a useful message', () => {
-				expect(result.data.error).toEqual(
-					'An unknown ID was provided.'
-				);
+			it('returns a complete error response', () => {
+				expect(result).toBeUnprocessableEntity({
+					error: 'An unknown ID was provided.'
+				});
 			});
 		});
 	});
@@ -204,7 +183,7 @@ describe('/birthdays - default action', () => {
 				})
 			);
 
-			expect(result.data).toContain({
+			expect(result).toBeUnprocessableEntity({
 				id: storedId()
 			});
 		});
@@ -216,7 +195,7 @@ describe('/birthdays - default action', () => {
 				})
 			);
 
-			expect(result.data).toContain({
+			expect(result).toBeUnprocessableEntity({
 				id: storedId()
 			});
 		});
