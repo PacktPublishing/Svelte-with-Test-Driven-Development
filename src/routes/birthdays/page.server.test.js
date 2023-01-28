@@ -199,4 +199,44 @@ describe('/birthdays - default action', () => {
 			});
 		});
 	});
+
+	describe('when replacing an item', () => {
+		beforeEach(async () => {
+			let request = createFormDataRequest({
+				name: 'Zeus',
+				dob: '2009-02-02'
+			});
+			await actions.default({ request });
+		});
+
+		it('returns the id when an empty name is provided', async () => {
+			const request = createFormDataRequest({
+				id: storedId(),
+				name: '',
+				dob: '1982-05-01'
+			});
+
+			const result = await actions.default({
+				request
+			});
+			expect(result.data).toContain({
+				id: storedId()
+			});
+		});
+
+		it('returns the id when an empty date of birth is provided', async () => {
+			const request = createFormDataRequest({
+				id: storedId(),
+				name: 'Hercules',
+				dob: ''
+			});
+
+			const result = await actions.default({
+				request
+			});
+			expect(result.data).toContain({
+				id: storedId()
+			});
+		});
+	});
 });

@@ -22,6 +22,7 @@ export const actions = {
 
 		if (empty(name)) {
 			return fail(422, {
+				id,
 				dob,
 				error: 'Please provide a name.'
 			});
@@ -29,6 +30,7 @@ export const actions = {
 
 		if (invalidDob(dob)) {
 			return fail(422, {
+				id,
 				name,
 				dob,
 				error:
