@@ -2,26 +2,34 @@ import {
 	describe,
 	it,
 	expect,
-	beforeEach
+	beforeEach,
+	vi
 } from 'vitest';
 import { createFormDataRequest } from 'src/factories/formDataRequest.js';
 import { createBirthday } from 'src/factories/birthday.js';
+import { fetchResponseOk } from 'src/factories/fetch.js';
 import { load, actions } from './+page.server.js';
 import * as birthdayRepository from '$lib/server/birthdayRepository.js';
 
 describe('/birthdays - load', () => {
-	it('returns a fixture of two items', () => {
-		const result = load();
-		expect(result.birthdays).toEqual([
-			expect.objectContaining({
-				name: 'Hercules',
-				dob: '1994-02-02'
-			}),
-			expect.objectContaining({
-				name: 'Athena',
-				dob: '1989-01-01'
-			})
-		]);
+	it('calls fetch with /api/birthdays', async () => {
+		const fetch = vi.fn();
+		fetch.mockResolvedValue(fetchResponseOk());
+		const result = await load({ fetch });
+		expect(fetch).toBeCalledWith('/api/birthdays');
+	});
+
+	it('returns the response body', async () => {
+		const birthdays = [
+			createBirthday('Hercules', '1994-02-02'),
+			createBirthday('Athena', '1989-01-01')
+		];
+		const fetch = vi.fn();
+		fetch.mockResolvedValue(
+			fetchResponseOk({ birthdays })
+		);
+		const result = await load({ fetch });
+		expect(result).toEqual({ birthdays });
 	});
 });
 

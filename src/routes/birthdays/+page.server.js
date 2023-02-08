@@ -1,16 +1,16 @@
 import { fail } from '@sveltejs/kit';
 import {
 	addNew,
-	getAll,
 	replace
 } from '$lib/server/birthdayRepository.js';
 
 addNew({ name: 'Hercules', dob: '1994-02-02' });
 addNew({ name: 'Athena', dob: '1989-01-01' });
 
-export const load = () => ({
-	birthdays: getAll()
-});
+export const load = async ({ fetch }) => {
+	const result = await fetch('/api/birthdays');
+	return result.json();
+};
 
 export const actions = {
 	default: async ({ request }) => {
