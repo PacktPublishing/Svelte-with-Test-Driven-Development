@@ -1,8 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import {
-	addNew,
-	replace
-} from '$lib/server/birthdayRepository.js';
+import { addNew } from '$lib/server/birthdayRepository.js';
 
 addNew({ name: 'Hercules', dob: '1994-02-02' });
 addNew({ name: 'Athena', dob: '1989-01-01' });
@@ -13,25 +10,32 @@ export const load = async ({ fetch }) => {
 };
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, fetch }) => {
 		const data = await request.formData();
 		const id = data.get('id');
 		const name = data.get('name');
 		const dob = data.get('dob');
 
-		let result;
+		let response;
 		if (id) {
-			result = replace(id, { name, dob });
+			response = await fetch(`/api/birthday/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify({ name, dob })
+			});
 		} else {
-			result = addNew({ name, dob });
+			response = await fetch('/api/birthdays', {
+				method: 'POST',
+				body: JSON.stringify({ name, dob })
+			});
 		}
 
-		if (result.error) {
+		if (!response.ok) {
+			const { message } = await response.json();
 			return fail(422, {
 				id,
 				name,
 				dob,
-				error: result.error
+				error: message
 			});
 		}
 	}
