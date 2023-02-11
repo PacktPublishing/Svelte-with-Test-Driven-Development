@@ -11,12 +11,21 @@ import {
 } from '@testing-library/svelte';
 import { click } from '@testing-library/user-event';
 import { createBirthday } from 'src/factories/birthday.js';
+import Birthday from './Birthday.svelte';
+import BirthdayForm from './BirthdayForm.svelte';
 import Page from './+page.svelte';
 
-vi.mock('./Birthday.svelte');
-vi.mock('./BirthdayForm.svelte');
+vi.mock('./Birthday.svelte', async () => ({
+	default: componentDouble('Birthday')
+}));
+vi.mock('./BirthdayForm.svelte', async () => ({
+	default: componentDouble('BirthdayForm')
+}));
 
 describe('/birthdays', () => {
+	beforeEach(Birthday.reset);
+	beforeEach(BirthdayForm.reset);
+
 	const birthdays = [
 		createBirthday('Hercules', '1994-02-02', {
 			id: '123'
@@ -28,30 +37,22 @@ describe('/birthdays', () => {
 
 	it('displays a Birthday component for each birthday', () => {
 		render(Page, { data: { birthdays } });
-		expect(
-			screen.queryByText(/Hercules/)
-		).toBeVisible();
-		expect(
-			screen.queryByText(/1994-02-02/)
-		).toBeVisible();
-		expect(
-			screen.queryByText(/Athena/)
-		).toBeVisible();
-		expect(
-			screen.queryByText(/1989-01-01/)
-		).toBeVisible();
+		expect(Birthday).toBeRenderedWithProps({
+			name: 'Hercules',
+			dob: '1994-02-02'
+		});
+		expect(Birthday).toBeRenderedWithProps({
+			name: 'Athena',
+			dob: '1989-01-01'
+		});
 	});
 
 	it('displays the Birthdays in the same order as the props passed in', () => {
 		render(Page, { data: { birthdays } });
-		const birthdayEls =
-			screen.queryAllByTestId('Birthday');
-		expect(birthdayEls[0]).toHaveTextContent(
-			/Hercules/
-		);
-		expect(birthdayEls[1]).toHaveTextContent(
-			/Athena/
-		);
+		expect(Birthday.propsOfAllInstances()).toEqual([
+			expect.objectContaining({ name: 'Hercules' }),
+			expect.objectContaining({ name: 'Athena' })
+		]);
 	});
 
 	const firstEditButton = () =>
@@ -63,27 +64,21 @@ describe('/birthdays', () => {
 		render(Page, { data: { birthdays } });
 		await click(firstEditButton());
 
-		expect(
-			screen.queryByText(
-				`Editing ${JSON.stringify(birthdays[0])}`
-			)
-		).toBeInTheDocument();
+		expect(BirthdayForm).toBeRenderedWithProps({
+			form: birthdays[0]
+		});
 	});
 
 	it('cancels editing', async () => {
 		render(Page, { data: { birthdays } });
 		await click(firstEditButton());
 
-		const button = screen
-			.getByTestId('BirthdayForm')
-			.querySelector('button');
+		await BirthdayForm.lastInstance().dispatch(
+			'cancel'
+		);
 
-		await click(button);
-
-		expect(
-			screen.queryByText(
-				`Editing ${JSON.stringify(birthdays[0])}`
-			)
-		).not.toBeInTheDocument();
+		expect(BirthdayForm).not.toBeRenderedWithProps({
+			form: birthdays[0]
+		});
 	});
 });

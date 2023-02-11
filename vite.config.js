@@ -7,7 +7,8 @@ const config = {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		setupFiles: [
 			'src/vitest/cleanupDom.js',
-			'src/vitest/registerMatchers.js'
+			'src/vitest/registerMatchers.js',
+			'src/vitest/registerSvelteComponentDouble.js'
 		],
 		reporter: 'verbose',
 		restoreMocks: true
