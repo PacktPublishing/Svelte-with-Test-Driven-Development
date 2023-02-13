@@ -1,0 +1,35 @@
+{
+	"name": "birthdays",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"test:unit": "vitest run",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@cucumber/cucumber": "^9.0.1",
+		"@playwright/test": "^1.31.2",
+		"@sveltejs/adapter-auto": "^1.0.3",
+		"@sveltejs/kit": "^1.13.0",
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/svelte": "^3.2.2",
+		"@testing-library/user-event": "^14.4.3",
+		"eslint": "^8.36.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"jsdom": "^21.1.1",
+		"prettier": "^2.8.6",
+		"prettier-plugin-svelte": "^2.10.0",
+		"svelte": "^3.57.0",
+		"svelte-component-double": "^2.0.0",
+		"tree-kill-promise": "^3.0.14",
+		"vite": "^4.2.1",
+		"vitest": "^0.25.8"
+	},
+	"type": "module"
+}
