@@ -10,6 +10,29 @@ const addBirthday = async (
 	});
 };
 
+const login = async ({ context, baseURL }) => {
+	// goto a page to ensure the origin will match
+	// use context.request to ensure that cookies are shared
+	const response = await context.request.get(
+		'/auth/csrf'
+	);
+	const { csrfToken } = await response.json();
+	const response2 = await context.request.post(
+		'/auth/callback/credentials',
+		{
+			form: {
+				username: 'api',
+				csrfToken
+			},
+			headers: {
+				origin: baseURL
+			}
+		}
+	);
+};
+
+test.beforeEach(login);
+
 test('lists all birthday', async ({
 	page,
 	request

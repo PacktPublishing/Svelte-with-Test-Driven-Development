@@ -12,12 +12,24 @@ import {
 	fetchResponseError
 } from 'src/factories/fetch.js';
 import { load, actions } from './+page.server.js';
+import {
+	loggedInSession,
+	loggedOutSession,
+	loggedInLocalsSession,
+	loggedOutLocalsSession
+} from 'src/factories/session.js';
 
 describe('/birthdays - load', () => {
+	const parent = vi.fn();
+
+	beforeEach(() => {
+		parent.mockResolvedValue(loggedInSession());
+	});
+
 	it('calls fetch with /api/birthdays', async () => {
 		const fetch = vi.fn();
 		fetch.mockResolvedValue(fetchResponseOk());
-		const result = await load({ fetch });
+		const result = await load({ fetch, parent });
 		expect(fetch).toBeCalledWith('/api/birthdays');
 	});
 
@@ -30,22 +42,36 @@ describe('/birthdays - load', () => {
 		fetch.mockResolvedValue(
 			fetchResponseOk({ birthdays })
 		);
-		const result = await load({ fetch });
+		const result = await load({ fetch, parent });
 		expect(result).toEqual({ birthdays });
+	});
+
+	it('redirects if the request is not authorised', async () => {
+		parent.mockResolvedValue(loggedOutSession());
+		expect.hasAssertions();
+		try {
+			await load({ parent });
+		} catch (error) {
+			expect(error.status).toEqual(303);
+			expect(error.location).toEqual('/login');
+		}
 	});
 });
 
 describe('/birthdays - default action', () => {
 	const fetch = vi.fn();
+	let locals;
 
 	const performFormAction = (formData) =>
 		actions.default({
 			request: createFormDataRequest(formData),
-			fetch
+			fetch,
+			locals
 		});
 
 	beforeEach(() => {
 		fetch.mockResolvedValue(fetchResponseOk());
+		locals = loggedInLocalsSession();
 	});
 
 	describe('when adding a new birthday', () => {
@@ -138,6 +164,17 @@ describe('/birthdays - default action', () => {
 				dob: '2009-02-02',
 				id: '123'
 			});
+		});
+	});
+
+	describe('when not authorised', () => {
+		beforeEach(() => {
+			locals = loggedOutLocalsSession();
+		});
+
+		it('returns a failure', async () => {
+			const result = await performFormAction({});
+			expect(result.status).toEqual(401);
 		});
 	});
 });

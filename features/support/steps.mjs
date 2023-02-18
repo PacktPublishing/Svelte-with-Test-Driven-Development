@@ -23,6 +23,17 @@ When(
 	}
 );
 
+When('I log in', async function () {
+	await this.page
+		.getByRole('button', { name: /credentials/i })
+		.click();
+	await this.page.getByRole('textbox').fill('api');
+
+	await this.page
+		.getByRole('button', { name: /credentials/i })
+		.click();
+});
+
 When(
 	'I edit the birthday for {string} to be {string}',
 	async function (name, dob) {
