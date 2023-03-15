@@ -10,6 +10,7 @@ import {
 } from '@testing-library/svelte';
 import { click } from '@testing-library/user-event';
 import { createBirthday } from 'src/factories/birthday.js';
+import { birthdays as birthdaysStore } from '../../stores/birthdays.js';
 import Page from './+page.svelte';
 
 describe('/birthdays', () => {
@@ -25,10 +26,14 @@ describe('/birthdays', () => {
 	it('displays all the birthdays passed to it', () => {
 		render(Page, { data: { birthdays } });
 		expect(
-			screen.queryByText('Hercules')
+			screen.queryByText('Hercules', {
+				selector: 'li *'
+			})
 		).toBeVisible();
 		expect(
-			screen.queryByText('Athena')
+			screen.queryByText('Athena', {
+				selector: 'li *'
+			})
 		).toBeVisible();
 	});
 
@@ -63,6 +68,27 @@ describe('/birthdays', () => {
 				name: 'Edit'
 			})
 		).toHaveLength(2);
+	});
+
+	it('saves the loaded birthdays into the birthdays store', () => {
+		let storedBirthdays;
+		birthdaysStore.subscribe(
+			(value) => (storedBirthdays = value)
+		);
+		render(Page, { data: { birthdays } });
+		expect(storedBirthdays).toEqual(birthdays);
+	});
+
+	it('updates the birthdays store when the component props change', async () => {
+		let storedBirthdays;
+		birthdaysStore.subscribe(
+			(value) => (storedBirthdays = value)
+		);
+		const { component } = render(Page, {
+			data: { birthdays }
+		});
+		await component.$set({ data: { birthdays: [] } });
+		expect(storedBirthdays).toEqual([]);
 	});
 
 	describe('when editing an existing birthday', () => {

@@ -1,14 +1,19 @@
 <script>
 	import Birthday from './Birthday.svelte';
 	import BirthdayForm from './BirthdayForm.svelte';
+	import NextBirthday from './NextBirthday.svelte';
+	import { birthdays } from '../../stores/birthdays.js';
 
 	export let data;
 	export let form = undefined;
+
+	$: birthdays.set(data.birthdays);
 
 	let editing = form?.id ? form : null;
 </script>
 
 <h1>Birthday list</h1>
+<NextBirthday />
 <ol>
 	{#each data.birthdays as birthday}
 		<li>
