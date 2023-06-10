@@ -1,6 +1,6 @@
 # Svelte with Test-Driven Development
 
-<a href="https://www.packtpub.com/product/svelte-with-test-driven-development/9781837638338?utm_source=github&utm_medium=repository&utm_campaign="><img src="" alt="" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/product/svelte-with-test-driven-development/9781837638338?utm_source=github&utm_medium=repository&utm_campaign="><img src="https://content.packt.com/B19611/cover_image_small.jpg" alt="" height="256px" align="right"></a>
 
 This is the code repository for [Svelte with Test-Driven Development](https://www.packtpub.com/product/svelte-with-test-driven-development/9781837638338?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
 
