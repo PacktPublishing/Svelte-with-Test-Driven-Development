@@ -7,6 +7,7 @@ This is the code repository for [Svelte with Test-Driven Development](https://ww
 **Advance your skills and write effective automated tests with Vitest, Playwright, and Cucumber.js**
 
 ## What is this book about?
+Svelte is a popular front-end framework used for its focus on performance and user-friendliness, and test-driven development (TDD) is a powerful approach that helps in creating automated tests before writing code. By combining them, you can create efficient, maintainable code for modern applications. Svelte with Test-Driven Development will help you learn effective automated testing practices to build and maintain Svelte applications.
 
 This book covers the following exciting features:
 * Create clear and concise Vitest unit tests helping the implementation of Svelte components
