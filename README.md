@@ -49,6 +49,6 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 **Daniel Irvine** is a UK-based software consultant. He helps businesses simplify their existing codebases and assists dev teams in improving the quality of their software using eXtreme programming (XP) practices. He has been coaching developers for many years and co-founded the Queer Code London meetup.
 
 ## Other books by the author
-[Mastering React Test-Driven Development - Second Edition](https://www.packtpub.com/product/mastering-react-test-driven-development-second-edition/9781803247120?utm_source=github&utm_medium=repository&utm_campaign=9781803247120)
+* [Mastering React Test-Driven Development - Second Edition](https://www.packtpub.com/product/mastering-react-test-driven-development-second-edition/9781803247120?utm_source=github&utm_medium=repository&utm_campaign=9781803247120)
 
-[Mastering React Test-Driven Development](https://www.packtpub.com/product/mastering-react-test-driven-development/9781789133417?utm_source=github&utm_medium=repository&utm_campaign=9781789133417)
+* [Mastering React Test-Driven Development](https://www.packtpub.com/product/mastering-react-test-driven-development/9781789133417?utm_source=github&utm_medium=repository&utm_campaign=9781789133417)
